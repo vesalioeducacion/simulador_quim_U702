@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QUÍMICA - Metabolismo de Carbohidratos, Glucólisis y Glucemia (Facultad de Cs. Médicas - UCCuyo)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: {
+              DEFAULT: '#436600',
+              hover: '#355200',
+              light: '#f2f7e8',
+              border: '#c2d699'
+            },
+            medblue: { 50: '#f0f7ff', 100: '#e0effe', 500: '#0284c7', 600: '#0369a1', 700: '#075985', 900: '#0c4a6e' },
+            glucorange: { 50: '#fff7ed', 100: '#ffedd5', 500: '#f97316', 600: '#ea580c', 700: '#c2410c' },
+            carmine: { 50: '#fff1f2', 100: '#ffe4e6', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c', 800: '#9f1239', 900: '#881337', 950: '#4c0519' },
+            atpgold: { 50: '#fefce8', 100: '#fef9c3', 500: '#eab308', 600: '#ca8a04' }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- KaTeX CSS and JS for ultra-sharp biochemical formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathOnLoad()"></script>
+  
+  <style>
+    /* Estilo Institucional UCCuyo */
+    .text-accent { color: #436600; }
+    .bg-accent { background-color: #436600; }
+    .bg-accent-hover:hover { background-color: #355200; }
+    .border-accent { border-color: #436600; }
+    .custom-scroll::-webkit-scrollbar,
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track,
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb,
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover,
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    /* Custom scrollbars and transitions */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .pulse-glow { animation: pulseGlow 2s infinite; }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(2, 132, 199, 0.4); }
+      50% { box-shadow: 0 0 22px rgba(2, 132, 199, 0.85); }
+    }
+    .flow-dash {
+      stroke-dasharray: 8;
+      animation: dash 1.5s linear infinite;
+    }
+    @keyframes dash {
+      to { stroke-dashoffset: -16; }
+    }
+    .latex-eq { font-size: 1.05rem; }
+  </style>
+</head>
+<body class="h-full text-slate-800 flex flex-col font-sans antialiased selection:bg-sky-200">
+
+  <!-- ==================== CABECERA INSTITUCIONAL UCCUYO ==================== -->
+  <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50 no-math">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-accent flex items-center justify-center text-white font-bold text-xl shadow-md">
+          Q
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-gray-800 tracking-wide uppercase">QUÍMICA MÉDICA Y METABOLISMO</h1>
+          <p class="text-xs text-gray-500 font-semibold">Curso de Ingreso a Medicina (Facultad de Cs. Médicas - UCCuyo)</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <!-- Botón Vademécum Bioquímico / Fórmulas -->
+        <button onclick="openFormulasModal()" class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-200 transition">
+          <i class="fa-solid fa-book-bookmark text-accent"></i>
+          <span class="hidden sm:inline">Vademécum</span>
+        </button>
+        <!-- Botón Guía de Uso -->
+        <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:opacity-90 transition">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Guía de Uso</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== CONTENEDOR PRINCIPAL CON BARRA LATERAL ==================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+    
+    <!-- Menú de Navegación Lateral en 2 Columnas -->
+    <nav class="w-full lg:w-64 shrink-0 flex flex-row lg:flex-col gap-2 bg-white p-3 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit" id="navTabs">
+      <button onclick="switchTab(1)" id="tab-btn-1" data-tab="1" class="nav-btn bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm flex items-center gap-2">
+        <i class="fa-solid fa-fire-burner"></i> <span>1. Combustible & Lógica</span>
+      </button>
+      <button onclick="switchTab(2)" id="tab-btn-2" data-tab="2" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved"></i> <span>2. Barrera & GLUT4</span>
+      </button>
+      <button onclick="switchTab(3)" id="tab-btn-3" data-tab="3" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-bolt"></i> <span>3. Glucólisis & ATP</span>
+      </button>
+      <button onclick="switchTab(4)" id="tab-btn-4" data-tab="4" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-code-fork"></i> <span>4. Piruvato & Pasteur</span>
+      </button>
+      <button onclick="switchTab(5)" id="tab-btn-5" data-tab="5" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-arrows-rotate"></i> <span>5. Ciclo de Cori</span>
+      </button>
+      <button onclick="switchTab(6)" id="tab-btn-6" data-tab="6" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 border-t lg:border-t border-gray-100">
+        <i class="fa-solid fa-scale-balanced text-accent"></i> <span>6. Glucemia & Hormonas</span>
+      </button>
+    </nav>
+
+    <!-- Área de Módulos Didácticos -->
+    <div class="flex-1 min-w-0 space-y-6">
+
+    <!-- ========================================================================= -->
+    <!-- MÓDULO 1: Fundamentos del Metabolismo & Lógica del Fraccionamiento Escalonado -->
+    <!-- ========================================================================= -->
+    <section id="module-1" class="tab-content block space-y-6">
+      <!-- Banner de introducción -->
+      <div class="bg-gradient-to-r from-sky-900 to-medblue-700 text-white rounded-2xl p-6 sm:p-8 shadow-lg relative overflow-hidden">
+        <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-transparent to-transparent pointer-events-none"></div>
+        <div class="max-w-3xl space-y-2">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur text-xs font-medium text-sky-200">
+            <span>Módulo 1</span> · Fundamentos Bioenergéticos y Destino de Hexosas
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">La Glucosa como Combustible Primario y la Lógica del Fraccionamiento Escalonado</h2>
+          <p class="text-sky-100 text-sm sm:text-base leading-relaxed">
+            Comprender por qué la célula no quema la glucosa en una sola llamarada calórica, cómo convergen la fructosa y galactosa en el hígado, y la dependencia tisular obligada del encéfalo y del eritrocito.
+          </p>
+        </div>
+      </div>
+
+      <!-- Simulador Interactivo: Combustión Directa vs. Oxidación Escalonada -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-200 gap-3">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-carmine-100 text-carmine-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /></svg>
+              </span>
+              Lógica Bioquímica: Combustión Térmica en 1 Paso vs. Oxidación Biológica Escalonada
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">Compara el destino termodinámico de $\Delta G^\circ = -2870\text{ kJ/mol}$ de glucosa libre.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="triggerCombustionSimulation('calor')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-carmine-50 text-carmine-700 border border-carmine-200 hover:bg-carmine-100 transition">
+              Simular Combustión en 1 Paso
+            </button>
+            <button onclick="triggerCombustionSimulation('escalonada')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sky-50 text-medblue-700 border border-sky-300 hover:bg-sky-100 transition">
+              Simular Vía Enzimática Acoplada
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          <!-- Modelo A: Combustión Directa -->
+          <div id="card-combustion" class="p-5 rounded-xl border-2 border-dashed border-carmine-200 bg-carmine-50/40 transition-all duration-300">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-carmine-700 bg-carmine-100 px-2 py-0.5 rounded">Reacción No Biológica (1 Paso)</span>
+              <span class="text-xs font-semibold text-slate-500">Bomba Calorimétrica / Fuego</span>
+            </div>
+            <div class="h-44 bg-white rounded-xl border border-carmine-100 p-4 flex flex-col justify-between relative overflow-hidden" id="combustion-canvas-box">
+              <div class="text-center my-auto" id="combustion-state-text">
+                <p class="text-sm font-semibold text-slate-700">$$\text{Glucosa} + 6\,\text{O}_2 \longrightarrow 6\,\text{CO}_2 + 6\,\text{H}_2\text{O} + \text{Calor Brutal}$$</p>
+                <p class="text-xs text-carmine-600 mt-2 font-medium">Libera $2870\text{ kJ/mol}$ en microsegundos sin retención química.</p>
+              </div>
+              <div id="flame-animation" class="hidden absolute inset-0 bg-gradient-to-t from-red-600/80 via-orange-500/70 to-yellow-300/60 flex flex-col items-center justify-center text-white font-black p-4 text-center animate-pulse">
+                <span class="text-3xl mb-1">🔥💥</span>
+                <span class="text-base uppercase tracking-wider">¡Hipertermia Letal Inmediata!</span>
+                <span class="text-xs font-normal max-w-xs mt-1">Desnaturalización irreversible de proteínas citoplásmicas y membranas biológicas. Rendimiento de ATP = 0%.</span>
+              </div>
+            </div>
+            <div class="mt-4 space-y-2 text-xs text-slate-600">
+              <div class="flex justify-between items-center py-1 border-b border-carmine-100">
+                <span class="font-medium">Energía retenida como ATP:</span>
+                <span class="font-bold text-carmine-700 font-mono">0 kJ (0%)</span>
+              </div>
+              <div class="flex justify-between items-center py-1 border-b border-carmine-100">
+                <span class="font-medium">Disipación de calor:</span>
+                <span class="font-bold text-carmine-700 font-mono">100% (Explosivo)</span>
+              </div>
+              <div class="flex justify-between items-center py-1">
+                <span class="font-medium">Impacto celular:</span>
+                <span class="font-bold text-carmine-700">Muerte celular fulminante</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modelo B: Oxidación Enzimática Escalonada -->
+          <div id="card-enzymatic" class="p-5 rounded-xl border-2 border-sky-300 bg-sky-50/40 transition-all duration-300">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-medblue-700 bg-sky-100 px-2 py-0.5 rounded">Ruta Biológica Escalonada</span>
+              <span class="text-xs font-semibold text-slate-500">Citosol + Mitocondria</span>
+            </div>
+            <div class="h-44 bg-white rounded-xl border border-sky-100 p-4 flex flex-col justify-between relative overflow-hidden" id="enzymatic-canvas-box">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs text-slate-600 font-semibold">
+                  <span>Cascada Enzimática Acoplada</span>
+                  <span id="atp-counter-pill" class="px-2 py-0.5 rounded-full bg-atpgold-100 text-atpgold-700 font-bold border border-atpgold-500/20">ATP Formado: 32-38 eq</span>
+                </div>
+                <!-- Pasos de energía visual -->
+                <div class="grid grid-cols-4 gap-1.5 pt-2">
+                  <div class="p-2 rounded bg-sky-100 text-center text-[11px] font-medium border border-sky-200">
+                    <span class="block text-sky-800 font-bold">1. Glucólisis</span>
+                    <span class="text-[10px] text-sky-600">+2 ATP, +2 NADH</span>
+                  </div>
+                  <div class="p-2 rounded bg-sky-100 text-center text-[11px] font-medium border border-sky-200">
+                    <span class="block text-sky-800 font-bold">2. Decarb. PDH</span>
+                    <span class="text-[10px] text-sky-600">+2 NADH</span>
+                  </div>
+                  <div class="p-2 rounded bg-sky-100 text-center text-[11px] font-medium border border-sky-200">
+                    <span class="block text-sky-800 font-bold">3. Krebs</span>
+                    <span class="text-[10px] text-sky-600">+6 NADH, +2 FADH2, +2 GTP</span>
+                  </div>
+                  <div class="p-2 rounded bg-emerald-100 text-center text-[11px] font-medium border border-emerald-200">
+                    <span class="block text-emerald-800 font-bold">4. Cadena/Fosf.</span>
+                    <span class="text-[10px] text-emerald-700">~30-34 ATP</span>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs text-medblue-700 mt-2 font-medium bg-sky-50 p-2 rounded border border-sky-200/60">
+                Conservación del ~40% de energía libre estándar como enlaces fosfoanhídrido de ATP. El resto mantiene la normotermia corporal (36.5–37.2°C).
+              </p>
+            </div>
+            <div class="mt-4 space-y-2 text-xs text-slate-600">
+              <div class="flex justify-between items-center py-1 border-b border-sky-100">
+                <span class="font-medium">Eficiencia termodinámica:</span>
+                <span class="font-bold text-emerald-700 font-mono">~40% almacenado como ATP</span>
+              </div>
+              <div class="flex justify-between items-center py-1 border-b border-sky-100">
+                <span class="font-medium">Disipación de calor:</span>
+                <span class="font-bold text-slate-700 font-mono">~60% gradual (Homeostasis térmica)</span>
+              </div>
+              <div class="flex justify-between items-center py-1">
+                <span class="font-medium">Integridad celular:</span>
+                <span class="font-bold text-emerald-700">Óptima, compatible con la vida</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Convergencia Metabólica de Hexosas & Dependencia Tisular -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Convergencia de Fructosa y Galactosa -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-xl bg-amber-100 text-amber-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+            </span>
+            <h3 class="font-bold text-slate-900 text-base">Convergencia Hepática de Fructosa y Galactosa</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Aunque la glucosa es el sustrato central, la dieta aporta disacáridos como sacarosa (glucosa + fructosa) y lactosa (glucosa + galactosa). En el hepatocito, enzimas especializadas canalizan estas hexosas:
+          </p>
+          
+          <div class="space-y-3">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center text-xs font-bold text-amber-900">
+                <span>Vía de la Fructosa (Fructólisis Hepática)</span>
+                <span class="text-[10px] bg-amber-100 px-2 py-0.5 rounded text-amber-800">Fructoquinasa</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">
+                $$\text{Fructosa} \xrightarrow{\text{Fructoquinasa}} \text{Fructosa-1-P} \xrightarrow{\text{Aldolasa B}} \text{DHAP} + \text{Gliceraldehído}$$
+              </p>
+              <span class="text-[11px] text-slate-500 block mt-1">
+                <strong>Clave médica:</strong> Saltea el paso limitante de la PFK-1 (Fosfofructoquinasa-1). Su exceso estimula lipogénesis de novo y esteatosis hepática no alcohólica.
+              </span>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center text-xs font-bold text-indigo-900">
+                <span>Vía de la Galactosa (Vía de Leloir)</span>
+                <span class="text-[10px] bg-indigo-100 px-2 py-0.5 rounded text-indigo-800">Galactoquinasa / GALT</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">
+                $$\text{Galactosa} \xrightarrow{\text{GALK}} \text{Galactosa-1-P} \xrightarrow{\text{GALT}} \text{Glucosa-1-P} \longleftrightarrow \text{Glucosa-6-P}$$
+              </p>
+              <span class="text-[11px] text-slate-500 block mt-1">
+                <strong>Correlación clínica:</strong> El déficit genético de Galactosa-1-fosfato uridiltransferasa (GALT) causa <em>Galactosemia Clásica</em>: hepatomegalia, cataratas por galactitol y retraso en el lactante.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dependencia Tisular Crítica: Eritrocitos vs. Encéfalo -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-xl bg-carmine-100 text-carmine-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </span>
+            <h3 class="font-bold text-slate-900 text-base">Dependencia Tisular Absoluta de Glucosa</h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <!-- Glóbulos Rojos -->
+            <div class="p-4 rounded-xl bg-red-50/60 border border-red-200 space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-red-500 text-white font-bold flex items-center justify-center text-xs shadow-sm">RBC</span>
+                <div>
+                  <h4 class="font-bold text-xs text-red-950">Eritrocitos</h4>
+                  <span class="text-[10px] text-red-600 font-semibold">Carencia de Mitocondrias</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-700 leading-snug">
+                El hematíe maduro pierde organelas para maximizar el transporte de $\text{Hb}$. Depende al 100% de la <strong>glucólisis anaeróbica láctica</strong>.
+              </p>
+              <div class="p-2 rounded bg-white border border-red-200 text-[11px] text-slate-600">
+                <strong>Punto Fisiológico Vital:</strong> El ATP generado sustenta la bomba $\text{Na}^+/\text{K}^+\text{-ATPasa}$. Su agotamiento provoca hinchazón osmótica celular, pérdida del disco bicóncavo y <em>hemólisis intravascular</em>.
+              </div>
+            </div>
+
+            <!-- Tejido Cerebral -->
+            <div class="p-4 rounded-xl bg-sky-50/60 border border-sky-200 space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-medblue-600 text-white font-bold flex items-center justify-center text-xs shadow-sm">SNC</span>
+                <div>
+                  <h4 class="font-bold text-xs text-sky-950">Encéfalo</h4>
+                  <span class="text-[10px] text-medblue-600 font-semibold">Consumo: ~120 g/día</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-700 leading-snug">
+                Representa el 2% del peso pero consume el 60% de la glucosa en ayuno basal. No almacena glucógeno significativo y no usa ácidos grasos libres (barrera hematoencefálica).
+              </p>
+              <div class="p-2 rounded bg-white border border-sky-200 text-[11px] text-slate-600">
+                <strong>Alerta Médica:</strong> La caída glucémica $(<70\text{ mg/dL})$ desata neuroglucopenia: diaforesis y cefalea seguidas de confusión mental, convulsiones tónico-clónicas y coma irreversible.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MÓDULO 2: Transporte Transmembrana, Insulina y Cascada GLUT4 -->
+    <!-- ========================================================================= -->
+    <section id="module-2" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-emerald-900 to-teal-700 text-white rounded-2xl p-6 sm:p-8 shadow-lg relative overflow-hidden">
+        <div class="max-w-3xl space-y-2">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur text-xs font-medium text-teal-200">
+            <span>Módulo 2</span> · Biofísica de Membrana y Señalización Celular
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Barrera Lipídica, Estructura de la Insulina y Exocitosis de GLUT4</h2>
+          <p class="text-teal-100 text-sm sm:text-base leading-relaxed">
+            La glucosa es polar e incapaz de atravesar pasivamente la membrana plasmática. Explora la arquitectura peptídica de la insulina y activa el simulador interactivo de translocación del transportador GLUT4 en miocitos y adipocitos.
+          </p>
+        </div>
+      </div>
+
+      <!-- Simulador Interactivo de Cascada de Señalización y Translocación GLUT4 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-4">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-teal-100 text-teal-700">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+              </span>
+              Simulador Transmembrana: Cascada del Receptor Tirosina Quinasa e Inserción de GLUT4
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">Controla la secreción de insulina para observar el tráfico vesicular hacia el sarcolema/membrana adipocitaria.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="btn-toggle-insulin" onclick="toggleInsulinSignaling()" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-md shadow-teal-600/20 transition flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-white animate-ping"></span> Liberar Insulina
+            </button>
+            <button onclick="resetGlut4Sim()" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
+              Reiniciar Estado
+            </button>
+          </div>
+        </div>
+
+        <!-- Escenario Interactivo SVG/Canvas -->
+        <div class="w-full bg-gradient-to-b from-sky-50/50 via-white to-amber-50/30 rounded-2xl border border-slate-200 p-4 relative overflow-hidden">
+          <svg viewBox="0 0 800 380" class="w-full h-auto select-none" id="glut4-svg">
+            <defs>
+              <linearGradient id="memGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#94a3b8"/>
+                <stop offset="50%" stop-color="#475569"/>
+                <stop offset="100%" stop-color="#94a3b8"/>
+              </linearGradient>
+              <linearGradient id="cytosolGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f8fafc"/>
+                <stop offset="100%" stop-color="#f1f5f9"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Espacio Extracelular -->
+            <rect x="0" y="0" width="800" height="120" fill="#f0f9ff" />
+            <text x="20" y="30" font-size="11" font-weight="700" fill="#0369a1" letter-spacing="1">ESPACIO EXTRACELULAR (SANGRE / INTERSTICIO)</text>
+            <text x="20" y="48" font-size="10" fill="#64748b">[Glucosa polar: $C_6H_{12}O_6$ repelida por lípidos]</text>
+
+            <!-- Moléculas de Glucosa Extracelular (hexágonos dorados) -->
+            <g id="extracellular-glucose">
+              <circle cx="90" cy="80" r="10" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+              <text x="90" y="83" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">Glu</text>
+              <circle cx="210" cy="65" r="10" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+              <text x="210" y="68" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">Glu</text>
+              <circle cx="360" cy="85" r="10" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+              <text x="360" y="88" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">Glu</text>
+              <circle cx="620" cy="70" r="10" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+              <text x="620" y="73" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">Glu</text>
+              <circle cx="730" cy="90" r="10" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+              <text x="730" y="93" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">Glu</text>
+            </g>
+
+            <!-- Bicapa Lipídica (Membrana Plasmática) -->
+            <g id="plasma-membrane">
+              <rect x="0" y="120" width="800" height="26" fill="url(#memGradient)" opacity="0.85"/>
+              <text x="720" y="137" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle">BICAPA LIPÍDICA</text>
+              <!-- Cabezas de fosfolípidos esquemáticas -->
+              <line x1="0" y1="120" x2="800" y2="120" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,4"/>
+              <line x1="0" y1="146" x2="800" y2="146" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,4"/>
+            </g>
+
+            <!-- Receptor de Insulina (RTK) con subunidades alfa y beta -->
+            <g id="insulin-receptor" transform="translate(180, 75)">
+              <!-- Subunidades alfa extracelulares -->
+              <rect x="0" y="10" width="22" height="35" rx="6" fill="#0d9488" stroke="#042f2e" stroke-width="1.5"/>
+              <rect x="30" y="10" width="22" height="35" rx="6" fill="#0d9488" stroke="#042f2e" stroke-width="1.5"/>
+              <line x1="22" y1="28" x2="30" y2="28" stroke="#f43f5e" stroke-width="3"/> <!-- Puente S-S -->
+              <text x="26" y="24" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">α - α</text>
+              <!-- Subunidades beta transmembrana -->
+              <rect x="4" y="45" width="14" height="60" rx="4" fill="#14b8a6" stroke="#042f2e" stroke-width="1.5"/>
+              <rect x="34" y="45" width="14" height="60" rx="4" fill="#14b8a6" stroke="#042f2e" stroke-width="1.5"/>
+              <circle cx="11" cy="100" r="6" id="rtk-p1" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+              <circle cx="41" cy="100" r="6" id="rtk-p2" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+              <text x="26" y="125" font-size="9" fill="#0f766e" font-weight="700" text-anchor="middle">Receptor RTK</text>
+            </g>
+
+            <!-- Insulina circulante (se une al activar) -->
+            <g id="insulin-molecule" transform="translate(195, 30)" class="transition-all duration-700">
+              <path d="M5,15 C5,5 25,5 25,15 C25,25 5,25 5,15 Z" fill="#e11d48" stroke="#881337" stroke-width="2"/>
+              <text x="15" y="18" font-size="8" fill="#fff" font-weight="bold" text-anchor="middle">INS</text>
+            </g>
+
+            <!-- Citosol celular -->
+            <rect x="0" y="146" width="800" height="234" fill="url(#cytosolGradient)" opacity="0.6"/>
+            <text x="20" y="170" font-size="11" font-weight="700" fill="#334155" letter-spacing="1">CITOPLASMA (MIOCITO / ADIPOCITO)</text>
+
+            <!-- Cascada Intracelular (IRS-1 -> PI3K -> Akt) -->
+            <g id="signaling-cascade" opacity="0.2" class="transition-opacity duration-700">
+              <!-- Flecha RTK -> IRS -->
+              <path d="M205,190 L205,225" stroke="#0d9488" stroke-width="2.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+              <rect x="175" y="225" width="60" height="26" rx="6" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5"/>
+              <text x="205" y="242" font-size="10" font-weight="bold" fill="#0c4a6e" text-anchor="middle">IRS-1 (P)</text>
+
+              <!-- Flecha IRS -> PI3K -->
+              <path d="M235,238 L290,238" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="4,3"/>
+              <rect x="290" y="225" width="65" height="26" rx="6" fill="#818cf8" stroke="#4f46e5" stroke-width="1.5"/>
+              <text x="322" y="242" font-size="10" font-weight="bold" fill="#312e81" text-anchor="middle">PI3K</text>
+
+              <!-- Flecha PI3K -> Akt -->
+              <path d="M355,238 L410,238" stroke="#4f46e5" stroke-width="2.5" stroke-dasharray="4,3"/>
+              <rect x="410" y="222" width="75" height="32" rx="8" fill="#ec4899" stroke="#be185d" stroke-width="2"/>
+              <text x="447" y="242" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Akt / PKB</text>
+
+              <!-- Señal inductora hacia vesícula -->
+              <path d="M485,238 C540,238 560,260 560,290" stroke="#be185d" stroke-width="3" fill="none" stroke-linecap="round" class="flow-dash"/>
+              <text x="525" y="225" font-size="9" font-weight="bold" fill="#be185d">Exocitosis</text>
+            </g>
+
+            <!-- Vesícula de Almacenamiento Intracelular GSV con GLUT4 -->
+            <g id="gsv-vesicle" transform="translate(540, 270)" class="transition-all duration-1000 ease-out">
+              <!-- Círculo de vesícula -->
+              <circle cx="60" cy="50" r="42" fill="#fed7aa" stroke="#ea580c" stroke-width="3" stroke-dasharray="6,4"/>
+              <text x="60" y="48" font-size="9" font-weight="bold" fill="#9a3412" text-anchor="middle">Vesícula GSV</text>
+              <text x="60" y="60" font-size="8" fill="#c2410c" text-anchor="middle">Reserva GLUT4</text>
+              <!-- Transportadores GLUT4 en la vesícula -->
+              <rect x="25" y="38" width="14" height="24" rx="4" fill="#2563eb" stroke="#1e3a8a" stroke-width="1.5"/>
+              <rect x="80" y="38" width="14" height="24" rx="4" fill="#2563eb" stroke="#1e3a8a" stroke-width="1.5"/>
+              <text x="32" y="53" font-size="7" font-weight="bold" fill="#fff" text-anchor="middle">G4</text>
+              <text x="87" y="53" font-size="7" font-weight="bold" fill="#fff" text-anchor="middle">G4</text>
+            </g>
+
+            <!-- Transportador GLUT4 ya inserto en la membrana plasmática (oculto en reposo) -->
+            <g id="membrane-glut4" transform="translate(590, 116)" opacity="0" class="transition-opacity duration-1000">
+              <rect x="0" y="0" width="30" height="34" rx="5" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+              <text x="15" y="20" font-size="8" font-weight="bold" fill="#fff" text-anchor="middle">GLUT4</text>
+              <!-- Canal abierto -->
+              <line x1="15" y1="0" x2="15" y2="34" stroke="#93c5fd" stroke-width="4" stroke-linecap="round"/>
+              <!-- Flujo de glucosa entrando -->
+              <g id="glucose-influx-arrow" opacity="0" class="transition-opacity duration-500">
+                <path d="M15,-10 L15,55" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" class="flow-dash"/>
+                <polygon points="10,50 15,60 20,50" fill="#f59e0b"/>
+                <text x="45" y="48" font-size="9" font-weight="bold" fill="#b45309">Entrada de Glucosa</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Explicación Médica y Arquitectura de la Insulina -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <span class="text-xs font-bold text-medblue-700 uppercase tracking-wide">1. Estructura Molecular</span>
+            <h4 class="font-bold text-slate-800 text-sm">Arquitectura de la Insulina</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Péptido de <strong>51 aminoácidos</strong> sintetizado por las células $\beta$ de los islotes de Langerhans:
+            </p>
+            <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
+              <li><strong>Cadena A:</strong> 21 aa (contiene 1 puente disulfuro intracatenario $A_6\text{-}A_{11}$).</li>
+              <li><strong>Cadena B:</strong> 30 aa.</li>
+              <li>Interconectadas por <strong>2 puentes disulfuro intercatenarios</strong> covalentes ($A_7\text{-}B_7$ y $A_{20}\text{-}B_{19}$), indispensables para la afinidad al receptor.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <span class="text-xs font-bold text-teal-700 uppercase tracking-wide">2. Cascada de Fosforilación</span>
+            <h4 class="font-bold text-slate-800 text-sm">Eje RTK $\to$ IRS-1 $\to$ PI3K $\to$ Akt</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              La unión de insulina activa la <strong>autofosforilación en residuos de tirosina</strong> de las subunidades $\beta$. Esto recluta a IRS-1, estimula a la fosfatidilinositol 3-quinasa (PI3K) y fosforila a <strong>Akt (PKB)</strong>, quien comanda la translocación vesicular de GLUT4.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-carmine-50/70 border border-carmine-200 space-y-2">
+            <span class="text-xs font-bold text-carmine-700 uppercase tracking-wide">3. Correlación Fisiopatológica</span>
+            <h4 class="font-bold text-carmine-950 text-sm">Diabetes Mellitus</h4>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              <strong>DM Tipo 1:</strong> Destrucción autoinmune de células $\beta$ $\implies$ ausencia absoluta de ligando.
+            </p>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              <strong>DM Tipo 2:</strong> Resistencia periférica (defecto en IRS-1/Akt por lipotoxicidad/inflamación). Sin inserción de GLUT4, la glucosa permanece secuestrada en el plasma desatando <strong>hiperglucemia crónica y glucosuria</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MÓDULO 3: Vía Glucolítica Citoplásmica & Balance Bioenergético -->
+    <!-- ========================================================================= -->
+    <section id="module-3" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-amber-700 to-yellow-600 text-white rounded-2xl p-6 sm:p-8 shadow-lg relative overflow-hidden">
+        <div class="max-w-3xl space-y-2">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur text-xs font-medium text-amber-200">
+            <span>Módulo 3</span> · Catabolismo Citoplásmico
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Vía Glucolítica de Embden-Meyerhof y Rendimiento de ATP</h2>
+          <p class="text-amber-100 text-sm sm:text-base leading-relaxed">
+            Ruta de 10 reacciones enzimáticas en el citosol soluble. Analiza la fase preparatoria de inversión y la fase de beneficio con fosforilación a nivel de sustrato y generación de poder reductor.
+          </p>
+        </div>
+      </div>
+
+      <!-- Ecuación Global Termodinámica con LaTeX -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-amber-500"></span> Ecuación Estequiométrica Global
+          </h3>
+          <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800">
+            $$\Delta G^{\circ\prime} = -28.5\,\text{kJ/mol}$$
+          </span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center overflow-x-auto">
+          <div class="text-base sm:text-lg text-slate-900 font-serif py-1">
+            $$\text{Glucosa} + 2\,\text{ADP} + 2\,\text{P}_i + 2\,\text{NAD}^+ \longrightarrow 2\,\text{Piruvato} + 2\,\text{ATP} + 2\,\text{NADH} + 2\,\text{H}^+ + 2\,\text{H}_2\text{O}$$
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 text-center">
+          Reacción global fuertemente <strong>exergónica e irreversible</strong> bajo condiciones fisiológicas intracelulares.
+        </p>
+      </div>
+
+      <!-- Comparador Interactivo de las Dos Fases de la Glucólisis -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Fase 1: Inversión (5 Reacciones) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-red-100 text-red-600 font-bold text-xs">Fase 1</span>
+              <h4 class="font-bold text-slate-900 text-sm">Fase Preparatoria / Inversión</h4>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-bold text-xs font-mono">-2 ATP</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Consumo de 2 equivalentes de ATP para fosforilar la glucosa libre, atrapándola intracelularmente y desestabilizándola cinéticamente para su escisión.
+          </p>
+
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex justify-between items-center">
+              <div>
+                <span class="font-semibold text-slate-800">1. Glucosa $\to$ Glucosa-6-P</span>
+                <p class="text-[10px] text-slate-500">Hexoquinasa / Glucoquinasa (Irreversible · Trampa metabólica)</p>
+              </div>
+              <span class="font-mono text-red-600 font-bold">-1 ATP</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <span class="font-semibold text-slate-800">2. G6P $\rightleftharpoons$ Fructosa-6-P</span>
+              <p class="text-[10px] text-slate-500">Fosfoglucosa Isomerasa</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-amber-50 border border-amber-200 flex justify-between items-center">
+              <div>
+                <span class="font-bold text-amber-900">3. F6P $\to$ Fructosa-1,6-bisfosfato</span>
+                <p class="text-[10px] text-amber-700 font-medium">PFK-1 (Marcapasos limitante de la vía)</p>
+              </div>
+              <span class="font-mono text-red-600 font-bold">-1 ATP</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <span class="font-semibold text-slate-800">4. F-1,6-BP $\rightleftharpoons$ DHAP + GAP</span>
+              <p class="text-[10px] text-slate-500">Aldolasa (Escisión de la hexosa en 2 triosas)</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <span class="font-semibold text-slate-800">5. DHAP $\rightleftharpoons$ Gliceraldehído-3-P</span>
+              <p class="text-[10px] text-slate-500">Triosa Fosfato Isomerasa (Todo converge a 2 GAP)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fase 2: Rendimiento y Ganancia Neta -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xs">Fase 2</span>
+              <h4 class="font-bold text-slate-900 text-sm">Fase de Rendimiento (x2 por molécula de glucosa)</h4>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs font-mono">+4 ATP · +2 NADH</span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-lg bg-sky-50 border border-sky-200 flex justify-between items-center">
+              <div>
+                <span class="font-bold text-medblue-900">6. 2 GAP $\rightleftharpoons$ 2 (1,3-Bisfosfoglicerato)</span>
+                <p class="text-[10px] text-medblue-700">GAPDH (Oxidación dependiente de $\text{NAD}^+$ libre)</p>
+              </div>
+              <span class="font-mono text-medblue-700 font-bold">+2 NADH + 2H⁺</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 flex justify-between items-center">
+              <div>
+                <span class="font-bold text-emerald-900">7. 2 (1,3-BPG) $\rightleftharpoons$ 2 (3-Fosfoglicerato)</span>
+                <p class="text-[10px] text-emerald-700">Fosfoglicerato quinasa (Fosforilación a nivel de sustrato)</p>
+              </div>
+              <span class="font-mono text-emerald-700 font-bold">+2 ATP</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <span class="font-semibold text-slate-800">8. 2 (3-PG) $\rightleftharpoons$ 2 (2-Fosfoglicerato)</span>
+              <p class="text-[10px] text-slate-500">Fosfoglicerato mutasa</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+              <span class="font-semibold text-slate-800">9. 2 (2-PG) $\rightleftharpoons$ 2 Fosfoenolpiruvato (PEP)</span>
+              <p class="text-[10px] text-slate-500">Enolasa (Deshidratación de alta energía)</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 flex justify-between items-center">
+              <div>
+                <span class="font-bold text-emerald-900">10. 2 PEP $\longrightarrow$ 2 Piruvato</span>
+                <p class="text-[10px] text-emerald-700">Piruvato Quinasa (Fosforilación a nivel de sustrato · Irreversible)</p>
+              </div>
+              <span class="font-mono text-emerald-700 font-bold">+2 ATP</span>
+            </div>
+          </div>
+
+          <!-- Cuadro Resumen del Balance Neto -->
+          <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 flex flex-wrap items-center justify-around gap-4 text-center">
+            <div>
+              <span class="text-[11px] font-semibold text-slate-500 block">ATP Invertido</span>
+              <span class="text-lg font-extrabold text-red-600 font-mono">-2 ATP</span>
+            </div>
+            <div class="text-xl font-bold text-slate-300">+</div>
+            <div>
+              <span class="text-[11px] font-semibold text-slate-500 block">ATP Generado Bruto</span>
+              <span class="text-lg font-extrabold text-emerald-600 font-mono">+4 ATP</span>
+            </div>
+            <div class="text-xl font-bold text-slate-300">=</div>
+            <div class="p-2 px-3 rounded-lg bg-white border border-emerald-300 shadow-sm">
+              <span class="text-[11px] font-bold text-emerald-800 block">BALANCE NETO CITOSÓLICO</span>
+              <span class="text-xl font-black text-emerald-700 font-mono">+2 ATP & +2 NADH</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MÓDULO 4: Encrucijada del Piruvato & Efecto Pasteur -->
+    <!-- ========================================================================= -->
+    <section id="module-4" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-rose-950 via-rose-900 to-red-800 text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-rose-900/40">
+        <div class="max-w-3xl space-y-2 relative z-10">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-rose-500/20 border border-rose-400/30 backdrop-blur text-xs font-semibold text-rose-200">
+            <span>Módulo 4</span> · Destino Metabólico del Piruvato
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white drop-shadow-sm">La Encrucijada del Piruvato, Regeneración de NAD⁺ y Efecto Pasteur</h2>
+          <p class="text-rose-100 text-sm sm:text-base leading-relaxed font-normal">
+            El piruvato es el nudo estratégico entre la respiración mitocondrial aeróbica de alta eficiencia y la fermentación láctica anaeróbica de emergencia para sostener el flujo de la GAPDH.
+          </p>
+        </div>
+      </div>
+
+      <!-- Selector Dinámico Interactivo: Oxígeno Presente vs. Ausente/Hipoxia -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900">Selector de Tensión de Oxígeno Celular ($pO_2$)</h3>
+            <p class="text-xs text-slate-500">Alterna el estado metabólico para evaluar la reorientación del piruvato citoplásmico.</p>
+          </div>
+          <div class="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200">
+            <button id="btn-path-aero" onclick="setPyruvateFate('aero')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all bg-white text-medblue-700 shadow-sm">
+              Aeróbico: +O₂ / Mitocondria
+            </button>
+            <button id="btn-path-anaero" onclick="setPyruvateFate('anaero')" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all">
+              Anaeróbico: Déficit O₂ / Sin Mitocondria
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel del Destino Aeróbico -->
+        <div id="panel-pyruvate-aero" class="space-y-6">
+          <div class="p-5 rounded-xl bg-sky-50/70 border border-sky-200 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="space-y-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-medblue-700 bg-sky-100 px-2.5 py-0.5 rounded-full">Respiración Celular Completa</span>
+              <h4 class="text-base font-bold text-slate-900">Oxidación Mitocondrial a $\text{CO}_2$ y $\text{H}_2\text{O}$</h4>
+              <p class="text-xs text-slate-600 max-w-2xl leading-relaxed">
+                El piruvato ingresa a la matriz mitocondrial vía el transportador MPC. El complejo <strong>Piruvato Deshidrogenasa (PDH)</strong> cataliza su descarboxilación oxidativa irreversible a Acetil-CoA, alimentando el ciclo de Krebs y la cadena respiratoria.
+              </p>
+            </div>
+            <div class="text-center p-3 rounded-xl bg-white border border-sky-300 shadow-sm min-w-[150px]">
+              <span class="text-[11px] font-semibold text-slate-500 block">Rendimiento Global</span>
+              <span class="text-2xl font-black text-medblue-700 font-mono">36 - 38 ATP</span>
+              <span class="text-[10px] text-slate-400 block">por glucosa completa</span>
+            </div>
+          </div>
+
+          <!-- Efecto Pasteur -->
+          <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-3">
+            <span class="p-2 rounded-lg bg-amber-200 text-amber-900 font-black text-sm">P</span>
+            <div class="space-y-1">
+              <h5 class="text-xs font-bold text-amber-950 uppercase tracking-wide">Efecto Pasteur Fisiológico</h5>
+              <p class="text-xs text-amber-900 leading-relaxed">
+                En presencia de oxígeno, la producción abundante de ATP y citrato mitocondrial ejerce una <strong>retroinhibición alostérica sobre la enzima fosfofructoquinasa-1 (PFK-1)</strong>. Como resultado, el consumo de glucosa citoplásmica se desacelera marcadamente; la célula ahorra combustible gracias a la altísima eficiencia de la fosforilación oxidativa.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel del Destino Anaeróbico (Láctico) -->
+        <div id="panel-pyruvate-anaero" class="hidden space-y-6">
+          <div class="p-5 rounded-xl bg-rose-50/70 border border-rose-200 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="space-y-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-carmine-700 bg-rose-100 px-2.5 py-0.5 rounded-full">Fermentación Láctica de Rescate</span>
+              <h4 class="text-base font-bold text-slate-900">Reducción a Lactato por la Lactato Deshidrogenasa (LDH)</h4>
+              <p class="text-xs text-slate-600 max-w-2xl leading-relaxed">
+                Ocurre en células anucleadas sin mitocondrias (eritrocitos) o en músculo esquelético durante hipoxia relativa o ejercicio extenuante.
+              </p>
+            </div>
+            <div class="text-center p-3 rounded-xl bg-white border border-rose-300 shadow-sm min-w-[150px]">
+              <span class="text-[11px] font-semibold text-slate-500 block">Rendimiento Neto</span>
+              <span class="text-2xl font-black text-carmine-700 font-mono">+2 ATP</span>
+              <span class="text-[10px] text-slate-400 block">por molécula de glucosa</span>
+            </div>
+          </div>
+
+          <!-- Reacción LDH y Justificación de Vida o Muerte -->
+          <div class="p-4 rounded-xl bg-white border border-rose-200 space-y-3">
+            <div class="text-center py-2 bg-slate-50 rounded-lg">
+              <p class="text-sm font-semibold text-slate-800">
+                $$\text{Piruvato} + \text{NADH} + \text{H}^+ \xrightleftharpoons[\text{deshidrogenasa}]{\text{Lactato}} \text{Lactato} + \text{NAD}^+$$
+              </p>
+            </div>
+            <div class="p-3 rounded-lg bg-carmine-50 border border-carmine-200/80 text-xs text-carmine-950 space-y-1">
+              <span class="font-bold block">¿Por qué es indispensable reducir el piruvato a lactato si no da ATP directo?</span>
+              <p class="leading-relaxed text-slate-700">
+                La enzima citoplásmica clave <strong>Gliceraldehído-3-fosfato deshidrogenasa (GAPDH)</strong> requiere un suministro constante de coenzima oxidada $\text{NAD}^+$. Si el $\text{NADH}$ no puede descargar sus electrones en la cadena mitocondrial por falta de $\text{O}_2$, todo el pool citosólico quedaría atrapado como $\text{NADH}$, provocando el <strong>paro inmediato de la glucólisis y la muerte por asfixia bioenergética</strong>. La LDH es la válvula de escape que regenera el $\text{NAD}^+$.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MÓDULO 5: Fisiología del Ejercicio & Ciclo de Cori -->
+    <!-- ========================================================================= -->
+    <section id="module-5" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-indigo-900 to-purple-800 text-white rounded-2xl p-6 sm:p-8 shadow-lg relative overflow-hidden">
+        <div class="max-w-3xl space-y-2">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur text-xs font-medium text-indigo-200">
+            <span>Módulo 5</span> · Cooperación Metabólica Interorgánica
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Fisiología del Ejercicio Intenso, Fatiga Muscular y el Ciclo de Cori</h2>
+          <p class="text-indigo-100 text-sm sm:text-base leading-relaxed">
+            En esfuerzos anaeróbicos intensos, el miocito acumula lactato y protones causando acidosis y fatiga. Descubre el puente circulatorio donde el hepatocito recicla el lactato a glucosa a un costo bioenergético neto de 4 ATP.
+          </p>
+        </div>
+      </div>
+
+      <!-- Simulador Animado del Circuito del Ciclo de Cori -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-indigo-100 text-indigo-700">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              </span>
+              Circuito Animado: Cooperación Músculo Esquelético $\longleftrightarrow$ Torrente Sanguíneo $\longleftrightarrow$ Hígado
+            </h3>
+            <p class="text-xs text-slate-500">Haz clic en activar para iniciar el flujo intertisular de sustratos.</p>
+          </div>
+          <button id="cori-toggle-btn" onclick="toggleCoriAnimation()" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/20 transition flex items-center gap-2">
+            <span id="cori-ping" class="w-2 h-2 rounded-full bg-emerald-400"></span> Activar Flujo del Ciclo
+          </button>
+        </div>
+
+        <!-- Diagrama Interactivo de Flujo SVG -->
+        <div class="w-full bg-slate-50 rounded-2xl border border-slate-200 p-4">
+          <svg viewBox="0 0 850 360" class="w-full h-auto select-none font-sans" id="cori-svg">
+            <defs>
+              <linearGradient id="bloodGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#fee2e2"/>
+                <stop offset="100%" stop-color="#fecaca"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Órgano 1: Músculo Esquelético (Izquierda) -->
+            <g transform="translate(30, 30)">
+              <rect x="0" y="0" width="260" height="300" rx="16" fill="#fef2f2" stroke="#f87171" stroke-width="2"/>
+              <text x="130" y="32" font-size="14" font-weight="800" fill="#991b1b" text-anchor="middle">MÚSCULO ESQUELÉTICO</text>
+              <text x="130" y="48" font-size="10" font-weight="600" fill="#dc2626" text-anchor="middle">(Contracción Anaeróbica)</text>
+
+              <!-- Proceso muscular -->
+              <rect x="30" y="70" width="200" height="42" rx="8" fill="#fff" stroke="#fca5a5" stroke-width="1.5"/>
+              <text x="130" y="88" font-size="11" font-weight="bold" fill="#7f1d1d" text-anchor="middle">Glucógeno / Glucosa</text>
+              <text x="130" y="103" font-size="9" fill="#991b1b" text-anchor="middle">Glucólisis Anaeróbica</text>
+
+              <!-- Flecha abajo a lactato -->
+              <path d="M130,112 L130,175" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arrow)"/>
+              <text x="145" y="145" font-size="10" font-weight="bold" fill="#16a34a">+2 ATP netos</text>
+
+              <rect x="30" y="180" width="200" height="48" rx="8" fill="#fff" stroke="#f87171" stroke-width="1.5"/>
+              <text x="130" y="200" font-size="12" font-weight="bold" fill="#b91c1c" text-anchor="middle">Lactato + H⁺</text>
+              <text x="130" y="216" font-size="9" fill="#ef4444" text-anchor="middle">Acidosis & Fatiga Muscular</text>
+
+              <text x="130" y="270" font-size="10" fill="#7f1d1d" text-anchor="middle" font-weight="600">Exporta Lactato a Sangre</text>
+            </g>
+
+            <!-- Vaso Sanguíneo Central (Torrente Circulatorio) -->
+            <g transform="translate(320, 20)">
+              <rect x="0" y="0" width="210" height="320" rx="16" fill="url(#bloodGradient)" stroke="#fca5a5" stroke-width="1.5"/>
+              <text x="105" y="28" font-size="12" font-weight="800" fill="#991b1b" text-anchor="middle">TORRENTE SANGUÍNEO</text>
+              <text x="105" y="44" font-size="9" fill="#b91c1c" text-anchor="middle">Transporte Sistémico</text>
+
+              <!-- Vía Lactato: Músculo -> Sangre -> Hígado (Abajo) -->
+              <path d="M-30,204 L240,204" stroke="#dc2626" stroke-width="4" stroke-linecap="round" id="path-lactate-stream" class="flow-dash"/>
+              <rect x="50" y="185" width="110" height="36" rx="6" fill="#fff" stroke="#ef4444" stroke-width="1"/>
+              <text x="105" y="202" font-size="10" font-weight="bold" fill="#b91c1c" text-anchor="middle">Lactato en Sangre</text>
+              <text x="105" y="214" font-size="8" fill="#7f1d1d" text-anchor="middle">Hacia el Hepatocito</text>
+
+              <!-- Vía Glucosa: Hígado -> Sangre -> Músculo (Arriba) -->
+              <path d="M240,90 L-30,90" stroke="#0284c7" stroke-width="4" stroke-linecap="round" id="path-glucose-stream" class="flow-dash"/>
+              <rect x="50" y="72" width="110" height="36" rx="6" fill="#fff" stroke="#0284c7" stroke-width="1"/>
+              <text x="105" y="89" font-size="10" font-weight="bold" fill="#0369a1" text-anchor="middle">Glucosa en Sangre</text>
+              <text x="105" y="101" font-size="8" fill="#075985" text-anchor="middle">Hacia el Músculo</text>
+            </g>
+
+            <!-- Órgano 2: Hígado / Hepatocito (Derecha) -->
+            <g transform="translate(560, 30)">
+              <rect x="0" y="0" width="260" height="300" rx="16" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+              <text x="130" y="32" font-size="14" font-weight="800" fill="#1e3a8a" text-anchor="middle">HÍGADO (HEPATOCITO)</text>
+              <text x="130" y="48" font-size="10" font-weight="600" fill="#2563eb" text-anchor="middle">(Gluconeogénesis Activa)</text>
+
+              <!-- Captación de lactato -->
+              <rect x="30" y="180" width="200" height="48" rx="8" fill="#fff" stroke="#93c5fd" stroke-width="1.5"/>
+              <text x="130" y="200" font-size="12" font-weight="bold" fill="#1d4ed8" text-anchor="middle">Lactato $\to$ Piruvato</text>
+              <text x="130" y="216" font-size="9" fill="#2563eb" text-anchor="middle">Lactato Deshidrogenasa Hepática</text>
+
+              <!-- Flecha arriba hacia glucosa con consumo de ATP -->
+              <path d="M130,180 L130,112" stroke="#2563eb" stroke-width="2.5"/>
+              <text x="145" y="150" font-size="10" font-weight="bold" fill="#dc2626">-6 ATP / GTP</text>
+
+              <rect x="30" y="70" width="200" height="42" rx="8" fill="#fff" stroke="#3b82f6" stroke-width="1.5"/>
+              <text x="130" y="88" font-size="12" font-weight="bold" fill="#1e40af" text-anchor="middle">Glucosa Nueva</text>
+              <text x="130" y="103" font-size="9" fill="#2563eb" text-anchor="middle">Glucosa-6-Fosfatasa</text>
+
+              <text x="130" y="270" font-size="10" fill="#1e3a8a" text-anchor="middle" font-weight="600">Exporta Glucosa a Sangre</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Balance Bioenergético Global del Ciclo de Cori -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Fórmula del Flujo Interorgánico</h4>
+            <div class="text-xs text-slate-700 bg-white p-2.5 rounded border border-slate-200">
+              $$\text{Músculo: Glucosa} \xrightarrow{\text{Glucólisis}} \text{Lactato} \xrightarrow{\text{Sangre}} \text{Hígado: Lactato} \xrightarrow{\text{Gluconeog.}} \text{Glucosa}$$
+            </div>
+            <p class="text-xs text-slate-600">
+              Permite transferir la <strong>carga metabólica</strong> desde el músculo extenuado (incapaz de sintetizar glucosa de novo por carecer de glucosa-6-fosfatasa) hacia el hígado dotado de alta capacidad oxidativa.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
+            <h4 class="font-bold text-amber-900 text-xs uppercase tracking-wide">Costo Termodinámico Neto: El "Precio" del Reciclado</h4>
+            <ul class="text-xs text-amber-950 space-y-1">
+              <li class="flex justify-between">
+                <span>Rendimiento glucolítico en músculo:</span>
+                <span class="font-mono font-bold text-emerald-700">+2 ATP</span>
+              </li>
+              <li class="flex justify-between">
+                <span>Consumo gluconeogénico en hígado:</span>
+                <span class="font-mono font-bold text-carmine-700">-6 ATP eq (4 ATP + 2 GTP)</span>
+              </li>
+              <li class="flex justify-between border-t border-amber-200 pt-1 font-bold">
+                <span>Déficit bioenergético neto por vuelta:</span>
+                <span class="font-mono text-carmine-800">-4 ATP</span>
+              </li>
+            </ul>
+            <p class="text-[11px] text-amber-800 mt-1">
+              El hígado subsidia al músculo quemando ácidos grasos mediante $\beta$-oxidación para generar los 6 ATP necesarios.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MÓDULO 6: Regulación Neuroendocrina de la Glucemia -->
+    <!-- ========================================================================= -->
+    <section id="module-6" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-orange-800 via-amber-700 to-sky-800 text-white rounded-2xl p-6 sm:p-8 shadow-lg relative overflow-hidden">
+        <div class="max-w-3xl space-y-2">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur text-xs font-medium text-orange-200">
+            <span>Módulo 6</span> · Homeostasis Sistémica y Farmacología
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Regulación Neuroendocrina de la Glucemia y Eje Insulina / Glucagón / Cortisol</h2>
+          <p class="text-orange-100 text-sm sm:text-base leading-relaxed">
+            Explora los rangos diagnósticos normativos y experimenta con el simulador de glucemia plasmática para visualizar la respuesta hormonal y las vías hepático-musculares activadas en tiempo real.
+          </p>
+        </div>
+      </div>
+
+      <!-- Simulador de Glucemia y Balanza Hormonal Dinámica -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-200 gap-4">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-glucorange-100 text-glucorange-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
+              </span>
+              Simulador Clínico: Titulador de Glucemia Plasmática
+            </h3>
+            <p class="text-xs text-slate-500">Desplaza el cursor para cambiar la glucosa en sangre y observar la respuesta adaptativa neuroendocrina.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="setGlycemiaPreset(45)" class="px-2.5 py-1 rounded text-xs font-semibold bg-red-100 text-red-800 hover:bg-red-200">Hipoglucemia (45)</button>
+            <button onclick="setGlycemiaPreset(85)" class="px-2.5 py-1 rounded text-xs font-semibold bg-sky-100 text-medblue-800 hover:bg-sky-200">Ayuno Normal (85)</button>
+            <button onclick="setGlycemiaPreset(130)" class="px-2.5 py-1 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 hover:bg-emerald-200">Posprandial (130)</button>
+            <button onclick="setGlycemiaPreset(240)" class="px-2.5 py-1 rounded text-xs font-semibold bg-purple-100 text-purple-800 hover:bg-purple-200">Hiperglucemia (240)</button>
+          </div>
+        </div>
+
+        <!-- Slider de Glucemia con Display Clínico -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-50 via-white to-slate-50 border border-slate-200 space-y-4">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Valor Glucémico Actual</span>
+              <div class="flex items-baseline gap-2 mt-1">
+                <span id="glycemia-val-display" class="text-4xl sm:text-5xl font-black font-mono text-slate-900">85</span>
+                <span class="text-base font-bold text-slate-500">mg/dL</span>
+              </div>
+            </div>
+            <div id="glycemia-status-badge" class="px-4 py-2 rounded-xl text-xs font-bold bg-sky-100 text-medblue-800 border border-sky-300">
+              Normoglucemia en Ayunas ($70-90\,\text{mg/dL}$)
+            </div>
+          </div>
+
+          <input type="range" id="glycemia-slider" min="30" max="300" value="85" step="1" oninput="updateGlycemiaSim(this.value)"
+            class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-medblue-600">
+
+          <div class="flex justify-between text-[11px] text-slate-500 font-medium pt-1">
+            <span class="text-red-600 font-bold">Hipoglucemia (&lt;70)</span>
+            <span class="text-medblue-700 font-bold">Ayuno Óptimo (70–90)</span>
+            <span class="text-emerald-700 font-bold">Normal Posprandial (&lt;140)</span>
+            <span class="text-purple-700 font-bold">Hiperglucemia Diabética (&gt;200)</span>
+          </div>
+        </div>
+
+        <!-- Balanza de Hormonas: Insulina vs. Glucagón vs. Cortisol -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Insulina -->
+          <div class="p-5 rounded-xl border border-sky-200 bg-sky-50/50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-medblue-900">Insulina</span>
+              <span id="insulin-level-tag" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-200 text-medblue-800">Basal</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+              <div id="insulin-bar" class="bg-medblue-600 h-full rounded-full transition-all duration-300" style="width: 35%;"></div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p><strong>Células $\beta$ pancreáticas:</strong> Hormona anabólica e hipoglucemiante.</p>
+              <ul class="list-disc list-inside text-[11px] text-slate-600 space-y-0.5 pt-1">
+                <li id="ins-act-1">Estimula translocación GLUT4 (músculo/grasa).</li>
+                <li id="ins-act-2">Estimula glucólisis y glucogenogénesis.</li>
+                <li id="ins-act-3">Inhibe fuertemente gluconeogénesis y glucogenólisis.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Glucagón -->
+          <div class="p-5 rounded-xl border border-orange-200 bg-orange-50/50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-glucorange-900">Glucagón (29 aa)</span>
+              <span id="glucagon-level-tag" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-orange-200 text-glucorange-800">Basal</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+              <div id="glucagon-bar" class="bg-glucorange-500 h-full rounded-full transition-all duration-300" style="width: 30%;"></div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p><strong>Células $\alpha$ pancreáticas:</strong> Hormona catabólica e hiperglucemiante.</p>
+              <ul class="list-disc list-inside text-[11px] text-slate-600 space-y-0.5 pt-1">
+                <li id="glu-act-1">Estimula glucogenólisis hepática (vía AMPc/PKA).</li>
+                <li id="glu-act-2">Fuerza la gluconeogénesis en el hepatocito.</li>
+                <li id="glu-act-3">Inhibe la glucólisis hepática (fosforila PK y PFK-2).</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Cortisol / Glucocorticoides -->
+          <div class="p-5 rounded-xl border border-purple-200 bg-purple-50/50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-purple-950">Cortisol (Estrés/Ayuno)</span>
+              <span id="cortisol-level-tag" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900">Fisiológico</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+              <div id="cortisol-bar" class="bg-purple-600 h-full rounded-full transition-all duration-300" style="width: 25%;"></div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p><strong>Corteza Suprarrenal (Zona Fasciculada):</strong> Glucocorticoide catabólico.</p>
+              <ul class="list-disc list-inside text-[11px] text-slate-600 space-y-0.5 pt-1">
+                <li>Estimula proteólisis muscular $\to$ libera alanina y glutamina hacia el hígado.</li>
+                <li>Estimula lipólisis en adipocitos $\to$ libera glicerol como sustrato gluconeogénico.</li>
+                <li>Induce síntesis génica de PEPCK y glucosa-6-fosfatasa.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerta Farmacológica: Corticoterapia y Diabetes Esteroidea -->
+        <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 flex items-start gap-3">
+          <span class="p-2 rounded-lg bg-purple-200 text-purple-900 font-black text-sm">Rx</span>
+          <div class="space-y-1">
+            <h5 class="text-xs font-bold text-purple-950 uppercase tracking-wide">Correlación Farmacológica Clínica: Corticoterapia Prolongada</h5>
+            <p class="text-xs text-purple-900 leading-relaxed">
+              El uso continuado de glucocorticoides sintéticos (dexametasona, prednisona, hidrocortisona) en patologías autoinmunes o inflamatorias desencadena <strong>Diabetes Esteroidea o Hiperglucemia Secundaria</strong>. Mecanismo: aumento exacerbado de la gluconeogénesis hepática sumado a una resistencia periférica severa a la insulina por degradación de los sustratos del receptor IRS-1.
+            </p>
+          </div>
+        </div>
+
+        <!-- Regulación Alostérica Rápida vs. Hormonal Lenta -->
+        <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+          <h4 class="font-bold text-slate-800 text-sm mb-3">Dualidad de Control: Regulación Alostérica Rápida vs. Regulación Hormonal Lenta</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-600">
+            <div class="p-3 bg-white rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-900 block mb-1">1. Control Alostérico Local (Segundos)</span>
+              <p>Sensado autónomo intracelular mediante el cociente de adenilatos <strong>$\text{ATP}/\text{AMP}$</strong>. Cuando el ATP disminuye y sube el AMP (crisis energética), la <em>AMPK</em> y la <em>PFK-1</em> se activan al instante acelerando la glucólisis citoplásmica.</p>
+            </div>
+            <div class="p-3 bg-white rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-900 block mb-1">2. Control Hormonal Sistémico (Minutos a Horas)</span>
+              <p>Coordinación de todo el organismo vía <strong>Insulina, Glucagón, Adrenalina y Cortisol</strong> mediante modificaciones covalentes (fosforilación/desfosforilación mediada por PKA/fosfatasas) y modulación de la transcripción génica.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== PIE DE PÁGINA INSTITUCIONAL ==================== -->
+  <footer class="bg-white border-t border-gray-200 py-3 text-center text-xs text-gray-500 font-medium">
+    Desarrollado por vesalio - Todos los derechos reservados
+  </footer>
+
+  <!-- ==================== MODAL: VADEMÉCUM BIOQUÍMICO ==================== -->
+  <div id="modal-formulas" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white max-w-3xl w-full rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-accent p-4 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-book-bookmark text-xl"></i>
+          <h3 class="font-bold text-base">Vademécum Bioquímico: Metabolismo de Carbohidratos</h3>
+        </div>
+        <button onclick="closeFormulasModal()" class="text-white hover:text-gray-200 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 overflow-y-auto space-y-6 text-xs md:text-sm text-gray-700 custom-scrollbar leading-relaxed">
+        
+        <!-- 1. Glucólisis Citoplasmática -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-bolt"></i> 1. Ecuación Global de la Glucólisis (Citosol)
+          </h4>
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3 text-xs">
+            <div class="bg-emerald-50 text-emerald-900 p-3.5 rounded-xl border border-emerald-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <strong class="font-bold text-emerald-950 text-xs sm:text-sm">• Balance Estequiométrico Neto:</strong>
+                <span class="text-[10px] font-mono bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full font-bold">10 Reacciones</span>
+              </div>
+              <div class="overflow-x-auto py-2 custom-scroll text-center">
+                <div class="inline-block min-w-full text-xs font-mono font-semibold text-emerald-950 px-2 py-1 bg-white/70 rounded-lg border border-emerald-100">
+                  $$\text{Glucosa} + 2\,\text{ADP} + 2\,\text{P}_i + 2\,\text{NAD}^+ \longrightarrow 2\,\text{Piruvato} + 2\,\text{ATP} + 2\,\text{NADH} + 2\,\text{H}^+ + 2\,\text{H}_2\text{O}$$
+                </div>
+              </div>
+              <p class="text-[11px] text-emerald-800 leading-relaxed">
+                Variación de energía libre estándar: $\Delta G^{\circ\prime} = -28.5\,\text{kJ/mol}$ (proceso fuertemente exergónico). Fase de inversión ($-2\,\text{ATP}$) + Fase de rendimiento ($+4\,\text{ATP}, +2\,\text{NADH}$) = Balance neto $+2\,\text{ATP}$.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Fermentación Láctica -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-code-fork"></i> 2. Encrucijada Anaeróbica: Fermentación Láctica
+          </h4>
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3 text-xs">
+            <div class="bg-amber-50 text-amber-900 p-3.5 rounded-xl border border-amber-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <strong class="font-bold text-amber-950 text-xs sm:text-sm">• Reacción de la Lactato Deshidrogenasa (LDH):</strong>
+                <span class="text-[10px] font-mono bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-bold">Regeneración de NAD+</span>
+              </div>
+              <div class="overflow-x-auto py-2 custom-scroll text-center">
+                <div class="inline-block min-w-full text-xs font-mono font-semibold text-amber-950 px-2 py-1 bg-white/70 rounded-lg border border-amber-100">
+                  $$\text{Piruvato} + \text{NADH} + \text{H}^+ \xrightleftharpoons[\text{LDH}]{} \text{Lactato} + \text{NAD}^+$$
+                </div>
+              </div>
+              <p class="text-[11px] text-amber-800 leading-relaxed">
+                Esencial en eritrocitos (sin mitocondrias) y músculo esquelético durante esfuerzo anaeróbico para reponer $\text{NAD}^+$ citoplásmico y evitar la detención de la glucólisis.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Ciclo de Cori y Rendimiento Global -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-arrows-rotate"></i> 3. Cooperación Músculo-Hígado y Rendimiento Aeróbico
+          </h4>
+          <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2 text-xs">
+            <div class="p-2.5 bg-white rounded-lg border border-gray-200 space-y-1">
+              <span class="font-bold text-gray-900 block">• Ciclo de Cori (Transporte Interorgánico):</span>
+              <div class="overflow-x-auto py-1 text-center">
+                $$\text{Músculo: Glucosa} \xrightarrow{\text{Glucólisis}} \text{Lactato} \xrightarrow{\text{Sangre}} \text{Hígado: Lactato} \xrightarrow{\text{Gluconeogénesis}} \text{Glucosa}$$
+              </div>
+              <p class="text-[11px] text-gray-500">
+                El hígado invierte $6\,\text{ATP}$ para reconvertir $2\,\text{lactato} \to 1\,\text{glucosa}$, soportando la deuda energética del músculo.
+              </p>
+            </div>
+
+            <div class="p-2.5 bg-white rounded-lg border border-gray-200 space-y-1">
+              <span class="font-bold text-gray-900 block">• Rendimiento Aeróbico Completo (Efecto Pasteur):</span>
+              <div class="overflow-x-auto py-1 text-center">
+                $$\text{Glucosa} + 6\,\text{O}_2 + 36\text{--}38\,\text{ADP} + 36\text{--}38\,\text{P}_i \longrightarrow 6\,\text{CO}_2 + 6\,\text{H}_2\text{O} + 36\text{--}38\,\text{ATP}$$
+              </div>
+              <p class="text-[11px] text-gray-500">En presencia de $\text{O}_2$, la eficiencia aumenta hasta $19$ veces respecto a la vía anaeróbica ($2\,\text{ATP}$).</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-end">
+        <button onclick="closeFormulasModal()" class="px-5 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover text-xs transition shadow-sm">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: GUÍA DE USO INTERACTIVA ==================== -->
+  <div id="modal-tutorial" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white max-w-4xl w-full rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-accent p-4 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-circle-question text-xl"></i>
+          <h3 class="font-bold text-base">Guía de Uso: Metabolismo de Carbohidratos y Glucemia</h3>
+        </div>
+        <button onclick="closeTutorial()" class="text-white hover:text-gray-200 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 overflow-y-auto space-y-6 text-xs md:text-sm text-gray-700 custom-scrollbar leading-relaxed">
+        
+        <!-- 1. Navegación -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-compass"></i> 1. Navegación Modular Lateral
+          </h4>
+          <p class="text-gray-600">
+            Utiliza la barra lateral izquierda persistente para alternar fluidamente entre los 6 módulos didácticos según el programa de ingreso a Medicina de la UCCuyo.
+          </p>
+        </div>
+
+        <!-- 2. Módulos Temáticos -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-sliders"></i> 2. Módulos Temáticos y Herramientas Prácticas
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-1.5">
+              <div class="flex items-center gap-1.5 font-bold text-gray-800">
+                <i class="fa-solid fa-fire-burner text-accent"></i> 1. Combustible & Lógica Escalonada
+              </div>
+              <p class="text-gray-600 text-[11px]">
+                • Simula la combustión directa en un solo paso (liberación violenta de calor) frente a la oxidación biológica en etapas con síntesis gradual de $\text{ATP}$.<br>
+                • Explora la dependencia tisular crítica en eritrocitos (sin mitocondrias) y cerebro ($120\,\text{g/día}$, neuroglucopenia).
+              </p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-1.5">
+              <div class="flex items-center gap-1.5 font-bold text-gray-800">
+                <i class="fa-solid fa-shield-halved text-accent"></i> 2. Barrera Lipídica & GLUT4
+              </div>
+              <p class="text-gray-600 text-[11px]">
+                • Observa la estructura molecular de la insulina (cadenas A y B unidas por puentes disulfuro).<br>
+                • Activa la señalización por tirosina quinasa para visualizar la exocitosis de vesículas con $\text{GLUT4}$ hacia la membrana y el influjo masivo de glucosa.
+              </p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-1.5">
+              <div class="flex items-center gap-1.5 font-bold text-gray-800">
+                <i class="fa-solid fa-bolt text-accent"></i> 3. Vía Glucolítica & Balance de ATP
+              </div>
+              <p class="text-gray-600 text-[11px]">
+                • Navega interactivamente entre la Fase de Inversión (trampa metabólica de glucosa-6-P, consumo de $2\,\text{ATP}$) y la Fase de Rendimiento (generación de $4\,\text{ATP}$ y $2\,\text{NADH}$).<br>
+                • Analiza el balance neto de $+2\,\text{ATP}$ y la termodinámica exergónica ($\Delta G^{\circ\prime} = -28.5\,\text{kJ/mol}$).
+              </p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-1.5">
+              <div class="flex items-center gap-1.5 font-bold text-gray-800">
+                <i class="fa-solid fa-code-fork text-accent"></i> 4. Encrucijada del Piruvato & Efecto Pasteur
+              </div>
+              <p class="text-gray-600 text-[11px]">
+                • Alterna entre el destino aeróbico mitocondrial ($36\text{--}38\,\text{ATP}$) y la fermentación láctica anaeróbica ($2\,\text{ATP}$).<br>
+                • Comprende por qué la reducción a lactato es indispensable para regenerar $\text{NAD}^+$ y evitar la detención glucolítica.
+              </p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-1.5">
+              <div class="flex items-center gap-1.5 font-bold text-gray-800">
+                <i class="fa-solid fa-arrows-rotate text-accent"></i> 5. Fisiología del Ejercicio & Ciclo de Cori
+              </div>
+              <p class="text-gray-600 text-[11px]">
+                • Anima el circuito interorgánico donde el lactato muscular viaja por la circulación al hepatocito para regenerar glucosa por gluconeogénesis.<br>
+                • Analiza la correlación entre acumulación de lactato, acidosis tisular y fatiga muscular.
+              </p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-1.5">
+              <div class="flex items-center gap-1.5 font-bold text-gray-800">
+                <i class="fa-solid fa-scale-balanced text-accent"></i> 6. Regulación de la Glucemia & Hormonas
+              </div>
+              <p class="text-gray-600 text-[11px]">
+                • Regula el slider de glucemia desde hipoglucemia ($<70\,\text{mg/dL}$) hasta hiperglucemia ($>140\,\text{mg/dL}$).<br>
+                • Observa la respuesta coordinada de insulina, glucagón y cortisol, y comprende el mecanismo de la diabetes esteroidea.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-end">
+        <button onclick="closeTutorial()" class="px-5 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover text-xs transition shadow-sm">
+          Comenzar Experiencia
+        </button>
+      </div>
+    </div>
+  </div>
+
+<script>
+    // Inicialización y Renderizado KaTeX
+    function renderMathWhenReady() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false }
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+          throwOnError: false
+        });
+      }
+    }
+
+    function reRenderMath() {
+      setTimeout(renderMathWhenReady, 50);
+    }
+
+    // Control de Modales Institucionales
+    function openFormulasModal() {
+      const el = document.getElementById('modal-formulas');
+      el.classList.remove('hidden');
+      if (window.renderMathInElement) {
+        renderMathInElement(el, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function closeFormulasModal() {
+      document.getElementById('modal-formulas').classList.add('hidden');
+    }
+
+    function openTutorial() {
+      const el = document.getElementById('modal-tutorial');
+      el.classList.remove('hidden');
+      if (window.renderMathInElement) {
+        renderMathInElement(el, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function closeTutorial() {
+      document.getElementById('modal-tutorial').classList.add('hidden');
+    }
+
+    // Navegación Modular Lateral en 2 Columnas
+    function switchTab(tabIndex) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('#navTabs .nav-btn').forEach(btn => {
+        btn.classList.remove('bg-accent', 'text-white', 'font-semibold', 'shadow-sm');
+        btn.classList.add('text-gray-700', 'hover:bg-gray-100', 'font-medium');
+      });
+
+      const activeModule = document.getElementById('module-' + tabIndex);
+      const activeBtn = document.getElementById('tab-btn-' + tabIndex);
+
+      if (activeModule) activeModule.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.add('bg-accent', 'text-white', 'font-semibold', 'shadow-sm');
+        activeBtn.classList.remove('text-gray-700', 'hover:bg-gray-100', 'font-medium');
+      }
+      reRenderMath();
+    }
+
+    // MÓDULO 1: Simulación de Combustión vs. Vía Enzimática
+    function triggerCombustionSimulation(mode) {
+      const flame = document.getElementById('flame-animation');
+      const cardC = document.getElementById('card-combustion');
+      const cardE = document.getElementById('card-enzymatic');
+
+      if (mode === 'calor') {
+        flame.classList.remove('hidden');
+        cardC.classList.add('ring-4', 'ring-red-400');
+        cardE.classList.remove('ring-4', 'ring-sky-400');
+        setTimeout(() => {
+          flame.classList.add('hidden');
+          cardC.classList.remove('ring-4', 'ring-red-400');
+        }, 4000);
+      } else {
+        cardE.classList.add('ring-4', 'ring-sky-400');
+        cardC.classList.remove('ring-4', 'ring-red-400');
+        const pill = document.getElementById('atp-counter-pill');
+        pill.classList.add('pulse-glow');
+        setTimeout(() => {
+          cardE.classList.remove('ring-4', 'ring-sky-400');
+          pill.classList.remove('pulse-glow');
+        }, 3000);
+      }
+    }
+
+    // MÓDULO 2: Cascada de Insulina y GLUT4
+    let insulinActive = false;
+    function toggleInsulinSignaling() {
+      insulinActive = !insulinActive;
+      const insMol = document.getElementById('insulin-molecule');
+      const rtkP1 = document.getElementById('rtk-p1');
+      const rtkP2 = document.getElementById('rtk-p2');
+      const cascade = document.getElementById('signaling-cascade');
+      const gsv = document.getElementById('gsv-vesicle');
+      const memGlut4 = document.getElementById('membrane-glut4');
+      const arrowInflux = document.getElementById('glucose-influx-arrow');
+      const btn = document.getElementById('btn-toggle-insulin');
+
+      if (insulinActive) {
+        insMol.setAttribute('transform', 'translate(195, 75)');
+        rtkP1.setAttribute('fill', '#eab308');
+        rtkP2.setAttribute('fill', '#eab308');
+        cascade.classList.remove('opacity-20');
+        cascade.classList.add('opacity-100');
+
+        gsv.setAttribute('transform', 'translate(540, 170)');
+        setTimeout(() => {
+          memGlut4.classList.remove('opacity-0');
+          memGlut4.classList.add('opacity-100');
+          arrowInflux.classList.remove('opacity-0');
+          arrowInflux.classList.add('opacity-100');
+        }, 600);
+
+        btn.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-400"></span> Retirar Insulina`;
+        btn.classList.remove('bg-teal-600', 'hover:bg-teal-700');
+        btn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+      } else {
+        resetGlut4Sim();
+      }
+    }
+
+    function resetGlut4Sim() {
+      insulinActive = false;
+      const insMol = document.getElementById('insulin-molecule');
+      const rtkP1 = document.getElementById('rtk-p1');
+      const rtkP2 = document.getElementById('rtk-p2');
+      const cascade = document.getElementById('signaling-cascade');
+      const gsv = document.getElementById('gsv-vesicle');
+      const memGlut4 = document.getElementById('membrane-glut4');
+      const arrowInflux = document.getElementById('glucose-influx-arrow');
+      const btn = document.getElementById('btn-toggle-insulin');
+
+      insMol.setAttribute('transform', 'translate(195, 30)');
+      rtkP1.setAttribute('fill', '#94a3b8');
+      rtkP2.setAttribute('fill', '#94a3b8');
+      cascade.classList.add('opacity-20');
+      cascade.classList.remove('opacity-100');
+
+      gsv.setAttribute('transform', 'translate(540, 290)');
+      memGlut4.classList.add('opacity-0');
+      memGlut4.classList.remove('opacity-100');
+      arrowInflux.classList.add('opacity-0');
+      arrowInflux.classList.remove('opacity-100');
+
+      btn.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Acoplar Insulina al Receptor`;
+      btn.classList.add('bg-teal-600', 'hover:bg-teal-700');
+      btn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+    }
+
+    // MÓDULO 3: Simulador de Fases de la Glucólisis
+    function setGlycolysisPhase(phase) {
+      const btnInv = document.getElementById('btn-phase-inv');
+      const btnRen = document.getElementById('btn-phase-ren');
+      const pInv = document.getElementById('glyco-phase-inversion');
+      const pRen = document.getElementById('glyco-phase-rendimiento');
+
+      if (phase === 'inv') {
+        pInv.classList.remove('hidden');
+        pRen.classList.add('hidden');
+        btnInv.className = "px-4 py-2 rounded-xl text-xs font-bold transition shadow bg-amber-500 text-white";
+        btnRen.className = "px-4 py-2 rounded-xl text-xs font-bold transition text-slate-600 bg-slate-100 hover:bg-slate-200";
+      } else {
+        pInv.classList.add('hidden');
+        pRen.classList.remove('hidden');
+        btnRen.className = "px-4 py-2 rounded-xl text-xs font-bold transition shadow bg-emerald-600 text-white";
+        btnInv.className = "px-4 py-2 rounded-xl text-xs font-bold transition text-slate-600 bg-slate-100 hover:bg-slate-200";
+      }
+      reRenderMath();
+    }
+
+    // MÓDULO 4: La Encrucijada del Piruvato
+    function setPyruvateFate(fate) {
+      const btnAero = document.getElementById('btn-path-aero');
+      const btnAnaero = document.getElementById('btn-path-anaero');
+      const panelAero = document.getElementById('panel-pyruvate-aero');
+      const panelAnaero = document.getElementById('panel-pyruvate-anaero');
+
+      if (fate === 'aero' || fate === 'aerobico') {
+        btnAero.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all bg-white text-medblue-700 shadow-sm";
+        btnAnaero.className = "px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all";
+        panelAero.classList.remove('hidden');
+        panelAnaero.classList.add('hidden');
+      } else {
+        btnAnaero.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all bg-white text-carmine-700 shadow-sm";
+        btnAero.className = "px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all";
+        panelAnaero.classList.remove('hidden');
+        panelAero.classList.add('hidden');
+      }
+      reRenderMath();
+    }
+    const setFate = setPyruvateFate;
+
+    // MÓDULO 5: Ciclo de Cori Animado
+    let coriActive = true;
+    function toggleCoriAnimation() {
+      coriActive = !coriActive;
+      const lac = document.getElementById('path-lactate-stream');
+      const glu = document.getElementById('path-glucose-stream');
+      const ping = document.getElementById('cori-ping');
+      const btn = document.getElementById('cori-toggle-btn');
+
+      if (coriActive) {
+        if (lac) lac.classList.add('flow-dash');
+        if (glu) glu.classList.add('flow-dash');
+        if (ping) {
+          ping.classList.remove('bg-slate-400');
+          ping.classList.add('bg-emerald-400');
+        }
+        if (btn) btn.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Pausar Flujo del Ciclo`;
+      } else {
+        if (lac) lac.classList.remove('flow-dash');
+        if (glu) glu.classList.remove('flow-dash');
+        if (ping) {
+          ping.classList.remove('bg-emerald-400');
+          ping.classList.add('bg-slate-400');
+        }
+        if (btn) btn.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> Reanudar Flujo`;
+      }
+    }
+    const toggleCoriFlow = toggleCoriAnimation;
+
+    // MÓDULO 6: Titulador de Glucemia Plasmática
+    function setGlycemiaPreset(val) {
+      document.getElementById('glycemia-slider').value = val;
+      updateGlycemiaSim(val);
+    }
+
+    function updateGlycemiaSim(val) {
+      const g = parseInt(val, 10);
+      document.getElementById('glycemia-val-display').innerText = g;
+
+      const badge = document.getElementById('glycemia-status-badge');
+      const insBar = document.getElementById('insulin-bar');
+      const gluBar = document.getElementById('glucagon-bar');
+      const cortBar = document.getElementById('cortisol-bar');
+      const insTag = document.getElementById('insulin-level-tag');
+      const gluTag = document.getElementById('glucagon-level-tag');
+      const cortTag = document.getElementById('cortisol-level-tag');
+
+      if (g < 70) {
+        badge.className = "px-4 py-2 rounded-xl text-xs font-bold bg-red-100 text-red-800 border border-red-300";
+        badge.innerHTML = `⚠️ Hipoglucemia Aguda (&lt;70 mg/dL) · Riesgo de Neuroglucopenia`;
+
+        insBar.style.width = '5%';
+        insTag.innerText = "Inhibida (<5%)";
+        insTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-red-100 text-red-800";
+
+        gluBar.style.width = '95%';
+        gluTag.innerText = "Máxima Estimulación";
+        gluTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-orange-200 text-orange-900";
+
+        cortBar.style.width = '85%';
+        cortTag.innerText = "Alerta de Estrés";
+        cortTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900";
+
+      } else if (g >= 70 && g <= 90) {
+        badge.className = "px-4 py-2 rounded-xl text-xs font-bold bg-sky-100 text-medblue-800 border border-sky-300";
+        badge.innerHTML = `Normoglucemia en Ayunas (70–90 mg/dL) · Homeostasis Basal`;
+
+        insBar.style.width = '35%';
+        insTag.innerText = "Secreción Basal";
+        insTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-200 text-medblue-800";
+
+        gluBar.style.width = '30%';
+        gluTag.innerText = "Secreción Basal";
+        gluTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-orange-200 text-orange-800";
+
+        cortBar.style.width = '20%';
+        cortTag.innerText = "Ritmo Circadiano Normal";
+        cortTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900";
+
+      } else if (g > 90 && g <= 140) {
+        badge.className = "px-4 py-2 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+        badge.innerHTML = `Estado Posprandial Normal (&lt;140 mg/dL) · Captación Activa`;
+
+        insBar.style.width = '80%';
+        insTag.innerText = "Pico Posprandial";
+        insTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900";
+
+        gluBar.style.width = '10%';
+        gluTag.innerText = "Suprimido (<10%)";
+        gluTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700";
+
+        cortBar.style.width = '15%';
+        cortTag.innerText = "Reposo Basal";
+        cortTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800";
+
+      } else {
+        badge.className = "px-4 py-2 rounded-xl text-xs font-bold bg-purple-100 text-purple-900 border border-purple-300";
+        badge.innerHTML = `🚨 Hiperglucemia Diabética / Estrés Severo (&gt;140 mg/dL)`;
+
+        insBar.style.width = '95%';
+        insTag.innerText = "Saturación o Resistencia";
+        insTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900";
+
+        gluBar.style.width = '5%';
+        gluTag.innerText = "Suprimido";
+        gluTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700";
+
+        cortBar.style.width = '75%';
+        cortTag.innerText = "Efecto Diabetogénico";
+        cortTag.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900";
+      }
+    }
+
+    // Inicialización al cargar la ventana
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMathWhenReady();
+      updateGlycemiaSim(85);
+    });
+
+    window.addEventListener('load', () => {
+      renderMathWhenReady();
+    });
+  </script>
+</body>
+</html>
